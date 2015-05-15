@@ -1,0 +1,6 @@
+boilerpipe:
+  build: .
+  ports:
+    - "3000:80"
+  volumes:
+    - ./app.js:/opt/app.js
