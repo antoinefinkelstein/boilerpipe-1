@@ -2,9 +2,7 @@ var path = require('path');
 var config = require('config');
 var server = require(path.join(__dirname, 'src/server'));
 
-console.log(config);
-
-var instance = server.createServer().listen(80, function() {
+var instance = server.createServer().listen(config.httpPort, function() {
   'use strict';
 
   var address = instance.address();
