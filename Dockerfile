@@ -6,6 +6,7 @@ WORKDIR /opt
 COPY app.js /opt/app.js
 COPY src /opt/src
 COPY package.json /opt/package.json
+COPY config /opt/config
 
 RUN npm install
 
