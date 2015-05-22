@@ -4,7 +4,9 @@ RUN apt-get update && apt-get install -y default-jdk
 
 WORKDIR /opt
 COPY app.js /opt/app.js
+COPY src /opt/src
+COPY package.json /opt/package.json
 
-RUN npm install java boilerpipe express
+RUN npm install
 
 CMD ["node", "/opt/app.js"]

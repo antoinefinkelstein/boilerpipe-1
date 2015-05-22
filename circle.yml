@@ -1,0 +1,24 @@
+machine:
+  service:
+    - docker
+
+dependencies:
+  override:
+    - sudo service docker stop; sudo curl -L -o /usr/bin/docker 'http://s3-external-1.amazonaws.com/circle-downloads/docker-1.6.0-circleci'; sudo chmod 0755 /usr/bin/docker; sudo service docker start; true
+    - docker info
+    - sudo pip install -U docker-compose
+    - docker-compose --version
+    - docker-compose pull
+    - docker-compose build boilerpipe
+
+test:
+  override:
+    - docker-compose run boilerpipe npm test
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - echo "{\"https://index.docker.io/v1/\":{\"auth\":\"<AUTH>\",\"email\":\"<EMAIL>\"}}" | sed "s/<EMAIL>/$HUB_EMAIL/;s/<AUTH>/$HUB_AUTH/" > ~/.dockercfg
+      - docker tag boilerpipe_boilerpipe woorank/boilerpipe:v$CIRCLE_BUILD_NUM
+      - docker tag woorank/boilerpipe:v$CIRCLE_BUILD_NUM woorank/boilerpipe:$latest
