@@ -1,6 +1,6 @@
-FROM node:0.12.0
+FROM java:7
 
-RUN apt-get update && apt-get install -y default-jdk
+RUN apt-get update && apt-get install -y nodejs npm nodejs-legacy
 
 WORKDIR /opt
 COPY app.js /opt/app.js
