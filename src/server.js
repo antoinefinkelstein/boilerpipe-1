@@ -1,10 +1,25 @@
 var express = require('express');
 var extract = require('./lib/extract');
+var pkg = require('../package.json');
+
+var startTime = new Date();
 
 function createServer() {
   'use strict';
 
   var app = express();
+
+  app.get('/healthcheck', function (req, res) {
+    res.status(200).json({
+      data: {
+        name: pkg.name,
+        version: pkg.version,
+        time: new Date(),
+        startTime: startTime,
+        status: 'Ok'
+      }
+    });
+  });
 
   app.get('/:extractor/:method', function(req, res) {
     extract(req.params.extractor, req.params.method,
