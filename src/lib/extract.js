@@ -32,7 +32,8 @@ function extract(extractorName, methodName, url, callback) {
   method.call(boilerpipe, function(err, result) {
     if (err) {
       var error = ERRORS.INTERNAL;
-      error.object = err;
+      error.message = err.cause.getMessageSync();
+      console.log(err);
       return callback(error, null);
     }
     return callback(null, result);
