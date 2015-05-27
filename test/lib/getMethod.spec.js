@@ -2,37 +2,43 @@
 
 'use strict';
 
-var assert = require('chai').assert;
+var chai = require('chai');
+var chaiAsPromised = require('chai-as-promised');
 var Boilerpipe = require('boilerpipe');
 var getMethod = require('../../src/lib/getMethod');
+var ERRORS = require('../../src/enum/errors');
+
+chai.should();
+chai.use(chaiAsPromised);
 
 describe('getMethod', function() {
-  it('should returns null on unknown method', function() {
-    var method = getMethod('unknownmethod');
-    assert.isNull(method);
+  it('should be rejected with INVALID_METHOD', function() {
+    return getMethod('unknownmethod')
+    .should.be.rejected
+    .and.eventually.deep.equal(ERRORS.INVALID_METHOD);
   });
 
-  it('should returns getText function prototype', function() {
-    var method = getMethod('text');
-    assert.isFunction(method);
-    assert.equal(method, Boilerpipe.prototype.getText);
+  it('should be fulfilled with getText function prototype', function() {
+    return getMethod('text')
+    .should.be.fulfilled
+    .and.eventually.deep.equal(Boilerpipe.prototype.getText);
   });
 
-  it('should returns getImages function prototype', function() {
-    var method = getMethod('images');
-    assert.isFunction(method);
-    assert.equal(method, Boilerpipe.prototype.getImages);
+  it('should be fulfilled with getImages function prototype', function() {
+    return getMethod('images')
+    .should.be.fulfilled
+    .and.eventually.deep.equal(Boilerpipe.prototype.getImages);
   });
 
-  it('should returns getHtml function prototype', function() {
-    var method = getMethod('html');
-    assert.isFunction(method);
-    assert.equal(method, Boilerpipe.prototype.getHtml);
+  it('should be fulfilled with getHtml function prototype', function() {
+    return getMethod('html')
+    .should.be.fulfilled
+    .and.eventually.deep.equal(Boilerpipe.prototype.getHtml);
   });
 
   it('should be case insensitive', function() {
-    var method = getMethod('Text');
-    assert.isFunction(method);
-    assert.equal(method, Boilerpipe.prototype.getText);
+    return getMethod('Text')
+    .should.be.fulfilled
+    .and.eventually.deep.equal(Boilerpipe.prototype.getText);
   });
 });

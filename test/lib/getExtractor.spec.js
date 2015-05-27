@@ -2,55 +2,61 @@
 
 'use strict';
 
-var assert = require('chai').assert;
+var chai = require('chai');
+var chaiAsPromised = require('chai-as-promised');
 var Boilerpipe = require('boilerpipe');
 var getExtractor = require('../../src/lib/getExtractor');
+var ERRORS = require('../../src/enum/errors');
+
+chai.should();
+chai.use(chaiAsPromised);
 
 describe('getExtractor', function() {
-  it('should returns null on unknown extractor', function() {
-    var extractor = getExtractor('unknownextractor');
-    assert.isNull(extractor);
+  it('should be rejected with INVALID_EXTRACTOR', function() {
+    return getExtractor('unknownextractor')
+    .should.be.rejected
+    .and.eventually.deep.equal(ERRORS.INVALID_EXTRACTOR);
   });
 
-  it('should returns ArticleExtractor', function() {
-    var extractor = getExtractor('article');
-    assert.isObject(extractor);
-    assert.deepEqual(extractor, Boilerpipe.Extractor.Article);
+  it('should be fulfilled with ArticleExtractor', function() {
+    return getExtractor('article')
+    .should.be.fulfilled
+    .and.eventually.deep.equal(Boilerpipe.Extractor.Article);
   });
 
-  it('should returns KeepEverythingExtractor', function() {
-    var extractor = getExtractor('keepeverything');
-    assert.isObject(extractor);
-    assert.deepEqual(extractor, Boilerpipe.Extractor.KeepEverything);
+  it('should be fulfilled with KeepEverythingExtractor', function() {
+    return getExtractor('keepeverything')
+    .should.be.fulfilled
+    .and.eventually.deep.equal(Boilerpipe.Extractor.KeepEverything);
   });
 
-  it('should returns LargestContentExtractor', function() {
-    var extractor = getExtractor('largestcontent');
-    assert.isObject(extractor);
-    assert.deepEqual(extractor, Boilerpipe.Extractor.LargestContent);
+  it('should be fulfilled with LargestContentExtractor', function() {
+    return getExtractor('largestcontent')
+    .should.be.fulfilled
+    .and.eventually.deep.equal(Boilerpipe.Extractor.LargestContent);
   });
 
-  it('should returns NumWordsRulesExtractor', function() {
-    var extractor = getExtractor('numwordsrules');
-    assert.isObject(extractor);
-    assert.deepEqual(extractor, Boilerpipe.Extractor.NumWordsRules);
+  it('should be fulfilled with NumWordsRulesExtractor', function() {
+    return getExtractor('numwordsrules')
+    .should.be.fulfilled
+    .and.eventually.deep.equal(Boilerpipe.Extractor.NumWordsRules);
   });
 
-  it('should returns CanolaExtractor', function() {
-    var extractor = getExtractor('canola');
-    assert.isObject(extractor);
-    assert.deepEqual(extractor, Boilerpipe.Extractor.Canola);
+  it('should be fulfilled with CanolaExtractor', function() {
+    return getExtractor('canola')
+    .should.be.fulfilled
+    .and.eventually.deep.equal(Boilerpipe.Extractor.Canola);
   });
 
-  it('should returns DefaultExtractor', function() {
-    var extractor = getExtractor('default');
-    assert.isObject(extractor);
-    assert.deepEqual(extractor, Boilerpipe.Extractor.Default);
+  it('should be fulfilled with DefaultExtractor', function() {
+    return getExtractor('default')
+    .should.be.fulfilled
+    .and.eventually.deep.equal(Boilerpipe.Extractor.Default);
   });
 
   it('should be case insensitive', function() {
-    var extractor = getExtractor('Article');
-    assert.isObject(extractor);
-    assert.deepEqual(extractor, Boilerpipe.Extractor.Article);
+    return getExtractor('Article')
+    .should.be.fulfilled
+    .and.eventually.deep.equal(Boilerpipe.Extractor.Article);
   });
 });

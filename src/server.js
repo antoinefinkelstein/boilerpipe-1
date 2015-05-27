@@ -22,12 +22,12 @@ function createServer() {
   });
 
   app.get('/:extractor/:method', function(req, res) {
-    extract(req.params.extractor, req.params.method,
-      req.query.url, function(err, result) {
-      if (err) {
-        return res.json({ error: err });
-      }
-      return res.json({ content: result });
+    extract(req.params.extractor, req.params.method, req.query.url)
+    .then(function(result) {
+      res.json({ content: result });
+    })
+    .catch(function(err) {
+      res.status(500).json({ error: err });
     });
   });
 
