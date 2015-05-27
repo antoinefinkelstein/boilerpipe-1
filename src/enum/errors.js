@@ -22,6 +22,14 @@ var ERRORS = {
   INTERNAL: {
     code: -6,
     text: 'Internal error.'
+  },
+  REQUEST_ERROR: {
+    code: -7,
+    text: 'Request error'
+  },
+  REQUEST_NON_OK: {
+    code: -8,
+    text: 'Request does not return 200 OK status code'
   }
 };
 

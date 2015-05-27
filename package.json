@@ -6,7 +6,8 @@
     "boilerpipe": "^0.0.7",
     "config": "~0.4.32",
     "express": "^4.12.4",
-    "java": "^0.5.4"
+    "java": "^0.5.4",
+    "request": "^2.55.0"
   },
   "devDependencies": {
     "chai": "^2.3.0",
